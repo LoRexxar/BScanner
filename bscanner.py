@@ -7,6 +7,7 @@ import Queue
 import urllib
 import sys
 import getopt
+import time
 
 
 # threads  = 50
@@ -74,7 +75,7 @@ def dir_bruter(word_queue, target_url, stime, extensions=None):
 				response = urllib2.urlopen(r)
 				
 				# 请求完成后睡眠
-				sleep(stime)
+				time.sleep(stime)
 				
 				if len(response.read()):
 					print "[%d] => %s" % (response.code, url)
@@ -88,7 +89,7 @@ def main(argv):
 
 	# 处理参数
 	parser = OptionParser()
-	parser.version = "v1.1.0"
+	parser.version = "v1.1.2"
 
 	parser.add_option("--version", "-v", dest="showVersion",action="store_true",help="show program's version and exit")
 
