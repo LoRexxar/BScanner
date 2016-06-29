@@ -88,7 +88,7 @@ def main(argv):
 
 	# 处理参数
 	parser = OptionParser()
-	parser.version = "v1.0.2"
+	parser.version = "v1.1.0"
 
 	parser.add_option("--version", "-v", dest="showVersion",action="store_true",help="show program's version and exit")
 
@@ -105,6 +105,10 @@ def main(argv):
 	opt.add_option("-e","--ext", dest="extensions", action="store_true", help="Whether to use file extension(default false)")
 	opt.add_option("-f","--filename",dest="filename",help="Scanner dictionary (default ./php.txt)")
 	opt.add_option("-s","--sleeptime", dest="stime", type="int", help="Each request of sleep time (default 0)")
+
+
+	parser.add_option_group(target)
+	parser.add_option_group(opt)
 
 	(args, _) = parser.parse_args(sys.argv)
 
