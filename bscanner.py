@@ -111,7 +111,7 @@ def main(argv):
 		errMsg += "use -h for basic or --help for advanced help"
 		parser.error(errMsg)
 
-	target_url = (args.url.rstrip('/') if args.url else "http://www.wooyun.org")
+	target_url = (args.url.rstrip('/').rstrip('"').rstrip('\'') if args.url else "http://www.wooyun.org")
 
 	threads = (args.thread if args.thread else 30)
 
