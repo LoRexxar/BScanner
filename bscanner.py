@@ -57,7 +57,10 @@ def dir_bruter(word_queue, target_url, extensions=None):
 		# 如果我们想暴力扩展
 		if extensions:
 			for extension in extensions:
-				attempt_list.append("/%s%s" % (attempt, extension))
+				if extension == ".swp":
+					attempt_list.append(".%s%s" % (attempt, extension))
+				else:
+					attempt_list.append("%s%s" % (attempt, extension))
 
 		# 迭代我们想要尝试的文件列表
 		for brute in attempt_list:
@@ -82,7 +85,7 @@ def main(argv):
 
 	# 处理参数
 	parser = OptionParser()
-	parser.version = "v1.0.1"
+	parser.version = "v1.0.2"
 
 	parser.add_option("--version", "-v", dest="showVersion",action="store_true",help="show program's version and exit")
 
