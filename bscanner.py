@@ -59,7 +59,7 @@ def dir_bruter(word_queue, target_url, stime, extensions=None):
 		if extensions:
 			for extension in extensions:
 				if extension == ".swp":
-					attempt_list.append("/.%s%s" % (attempt.rstrip('/'), extension))
+					attempt_list.append("/.%s%s" % (attempt.strip('/'), extension))
 				else:
 					attempt_list.append("%s%s" % (attempt, extension))
 
@@ -90,7 +90,7 @@ def main(argv):
 
 	# 处理参数
 	parser = OptionParser()
-	parser.version = "v1.2.0"
+	parser.version = "v1.2.1"
 
 	parser.add_option("--version", "-v", dest="showVersion",action="store_true",help="show program's version and exit")
 
