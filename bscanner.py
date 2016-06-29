@@ -82,7 +82,7 @@ def main(argv):
 
 	# 处理参数
 	parser = OptionParser()
-	parser.version = "v1.0.0"
+	parser.version = "v1.0.1"
 
 	parser.add_option("--version", "-v", dest="showVersion",action="store_true",help="show program's version and exit")
 
