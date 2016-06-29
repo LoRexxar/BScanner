@@ -83,6 +83,7 @@ def dir_bruter(word_queue, target_url, stime, extensions=None):
 			except urllib2.URLError,e:
 				if hasattr(e, 'code') and e.code != 404:
 					print "!!! %d => %s" % (e.code, url)
+	exit(0)
 
 
 def main(argv):
