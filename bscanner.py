@@ -41,7 +41,7 @@ def build_wordlist(wordlist_file):
 
 	return words
 
-def dir_bruter(word_queue, target_url, extensions=None):
+def dir_bruter(word_queue, target_url, stime, extensions=None):
 
 	while not word_queue.empty():
 		attempt = word_queue.get()
@@ -72,7 +72,10 @@ def dir_bruter(word_queue, target_url, extensions=None):
 				r = urllib2.Request(url, headers=headers)
 
 				response = urllib2.urlopen(r)
-
+				
+				# 请求完成后睡眠
+				sleep(stime)
+				
 				if len(response.read()):
 					print "[%d] => %s" % (response.code, url)
 
@@ -101,6 +104,7 @@ def main(argv):
 	opt.add_option("-t","--thread", dest="thread", type="int", help="thread number(default 30)")
 	opt.add_option("-e","--ext", dest="extensions", action="store_true", help="Whether to use file extension(default false)")
 	opt.add_option("-f","--filename",dest="filename",help="Scanner dictionary (default ./php.txt)")
+	opt.add_option("-s","--sleeptime", dest="stime", type="int", help="Each request of sleep time (default 0)")
 
 	(args, _) = parser.parse_args(sys.argv)
 
@@ -123,6 +127,14 @@ def main(argv):
 		errMsg = "thread value error (1-50)"
 		parser.error(errMsg)
 	
+	# 设置睡眠时间
+	stime = (args.stime if args.stime else 0)
+
+	if stime < 0 or stime > 10:
+		# 睡眠时间为0-10
+		errMsg = "time value error (0-10)"
+		parser.error(errMsg)
+
 	# 设置扫描器字典
 
 	wordlist_file =(args.filename if args.filename else "./dic/php.txt")
@@ -133,11 +145,11 @@ def main(argv):
 	# 开始扫描
 	if args.extensions:
 		for i in range(threads):
-				t = threading.Thread(target=dir_bruter, args=(word_queue,target_url,extensions,))
+				t = threading.Thread(target=dir_bruter, args=(word_queue,target_url,extensions,stime,))
 				t.start()
 	else:
 		for i in range(threads):
-				t = threading.Thread(target=dir_bruter, args=(word_queue,target_url,))
+				t = threading.Thread(target=dir_bruter, args=(word_queue,target_url,stime,))
 				t.start()
 
 
