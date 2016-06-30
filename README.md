@@ -15,4 +15,10 @@
 - -e,--ext  是否使用文件类型拓展，默认为关闭，现在的拓展为['.bak','.orig','.inc','.swp','~']
 - -f,--filename  字典拓展，默认为./dic/php.txt
 - -s,--sleeptime 每次请求的睡眠时间，由于是多线程的，所以这里大一点儿也没关系. 默认1（0-10）
+- -l    记录log的等级，默认为2（1-5）
+        分别为 1：CRITICAL
+               2：ERROR
+               3：WARN
+               4：INFO
+               5：DEBUG
 

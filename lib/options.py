@@ -84,7 +84,7 @@ def oparser():
         errMsg = "time value error (0-10)"
         parser.error(errMsg)
 
-    conf['loglevel'] = (args.loglevel if args.loglevel else 4)
+    conf['loglevel'] = (args.loglevel if args.loglevel else 2)
     if conf['loglevel'] < 1 or conf['loglevel'] > 5:
         # loglevel: 1-5
         errMsg = "loglevel value error(input 1-5)"
