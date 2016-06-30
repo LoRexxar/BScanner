@@ -4,9 +4,12 @@ from optparse import OptionGroup
 import threading
 import sys
 import logging
+import re
 from wordbuild import build_wordlist
 from bruter import dir_bruter
 from lib.config import conf
+from lib.log import logger
+from lib.log import log
 
 __author__ = "LoRexxar"
 
@@ -56,6 +59,16 @@ def oparser():
         parser.error(errMsg)
 
     conf['url'] = (args.url.rstrip('/').rstrip('"').rstrip('\'') if args.url else "http://www.wooyun.org")
+
+    # 处理下url用来log的名字
+    name = re.findall("[\w\.-]+", conf['url'])
+    try:
+        conf['name'] = (name[1] if len(name) == 2 else name[0])
+    except IndexError:
+        errMsg = "url input error!"
+        logger.error("url matching fail!")
+        parser.error(errMsg)
+
     conf['thread'] = (args.thread if args.thread else 30)
 
     if conf['thread'] < 1 or conf['thread'] > 50:
@@ -78,28 +91,20 @@ def oparser():
         parser.error(errMsg)
 
     if conf['loglevel'] == 1:
-        loglevel = logging.CRITICAL
+        conf['loglevel'] = logging.CRITICAL
     elif conf['loglevel'] == 2:
-        loglevel = logging.ERROR
+        conf['loglevel'] = logging.ERROR
     elif conf['loglevel'] == 3:
-        loglevel = logging.WARN
+        conf['loglevel'] = logging.WARN
     elif conf['loglevel'] == 4:
-        loglevel = logging.INFO
+        conf['loglevel'] = logging.INFO
     elif conf['loglevel'] == 5:
-        loglevel = logging.DEBUG
+        conf['loglevel'] = logging.DEBUG
     else:
-        loglevel = logging.ERROR
+        conf['loglevel'] = logging.ERROR
 
-    # logfile = (conf['url']+".log" if conf['url'] else "test.log")
-
-    logger = logging.getLogger('SpiderLog')
-    # f = open("./log/" + logfile, 'a+')
-    # Log_Handle = logging.StreamHandler(f)
-    # # Log_Handle = logging.StreamHandler(sys.stdout)
-    # FORMATTER = logging.Formatter("\r[%(asctime)s] [%(levelname)s] [%(thread)d] %(message)s", "%H:%M:%S")
-    # Log_Handle.setFormatter(FORMATTER)
-    # logger.addHandler(Log_Handle)
-    logger.setLevel(loglevel)
+    # 开启log
+    log(conf['name'], conf['loglevel'])
 
     # 设置扫描器字典
 
