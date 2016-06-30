@@ -3,6 +3,7 @@ import urllib
 import urllib2
 import time
 from lib.config import conf
+from lib.log import logger
 
 __author__ = "LoRexxar"
 
@@ -42,9 +43,12 @@ def dir_bruter(word_queue, target_url, stime, extensions=None):
                 time.sleep(stime)
 
                 if len(response.read()):
+                    logger.info("Get !!!!" + url)
                     print "[%d] => %s" % (response.code, url)
 
             except urllib2.URLError, e:
                 if hasattr(e, 'code') and e.code != 404:
                     print "!!! %d => %s" % (e.code, url)
+
+    logger.info("The dictionary queue is empty")
     exit(0)

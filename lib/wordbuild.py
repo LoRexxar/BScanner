@@ -1,6 +1,7 @@
 # coding=utf-8
 import Queue
 from lib.config import conf
+from lib.log import logger
 
 __author__ = "LoRexxar"
 
@@ -8,7 +9,9 @@ __author__ = "LoRexxar"
 def build_wordlist(wordlist_file):
     # 读入字典文件
     fd = open(wordlist_file, "rb")
+    logger.info("start wordlist build...")
     raw_words = fd.readlines()
+    logger.info("This dictionary contains %s rows" % len(fd.readlines()))
     fd.close()
 
     found_resume = False
@@ -30,4 +33,5 @@ def build_wordlist(wordlist_file):
         else:
             words.put(word)
 
+    logger.info("wordlist build is complete...")
     return words
