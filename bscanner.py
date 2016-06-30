@@ -8,7 +8,10 @@ import urllib
 import sys
 import getopt
 import time
+import logging
 
+
+__author__ = "LoRexxar"
 
 # threads  = 50
 # target_url = "http://www.wooyun.org/".rstrip('/')
@@ -27,6 +30,8 @@ def build_wordlist(wordlist_file):
 
 	for word in raw_words:
 		word = word.rstrip()
+
+		# 这功能暂时没开
 
 		if resume is not None:
 			if found_resume:
@@ -107,6 +112,12 @@ def main(argv):
 	opt.add_option("-e","--ext", dest="extensions", action="store_true", help="Whether to use file extension(default false)")
 	opt.add_option("-f","--filename",dest="filename",help="Scanner dictionary (default ./php.txt)")
 	opt.add_option("-s","--sleeptime", dest="stime", type="int", help="Each request of sleep time (default 1)")
+	opt.add_option("-l", dest="loglevel", type="int", help="log level(1-5) "
+														"1, CRITICAL; "
+														"2, ERROR(default); "
+														"3, WARN; "
+														"4, INFO; "
+														"5, DEBUG;")
 
 
 	parser.add_option_group(target)
@@ -141,6 +152,36 @@ def main(argv):
 		errMsg = "time value error (0-10)"
 		parser.error(errMsg)
 
+	loglevel = (args.loglevel if args.loglevel else 4)
+	if loglevel < 1 or loglevel > 5:
+		# loglevel: 1-5
+		errMsg = "loglevel value error(input 1-5)"
+		parser.error(errMsg)
+
+	if loglevel == 1:
+		loglevel = logging.CRITICAL
+	elif loglevel == 2:
+		loglevel = logging.ERROR
+	elif loglevel == 3:
+		loglevel = logging.WARN
+	elif loglevel == 4:
+		loglevel = logging.INFO
+	elif loglevel == 5:
+		loglevel = logging.DEBUG
+	else:
+		loglevel = logging.ERROR
+
+	# logfile = (target_url+".log" if target_url else "test.log")
+
+	logger = logging.getLogger('SpiderLog')
+	# f = open("./log/" + logfile, 'a+')
+	# Log_Handle = logging.StreamHandler(f)
+	# # Log_Handle = logging.StreamHandler(sys.stdout)
+	# FORMATTER = logging.Formatter("\r[%(asctime)s] [%(levelname)s] [%(thread)d] %(message)s", "%H:%M:%S")
+	# Log_Handle.setFormatter(FORMATTER)
+	# logger.addHandler(Log_Handle)
+	logger.setLevel(loglevel)
+	
 	# 设置扫描器字典
 
 	wordlist_file =(args.filename if args.filename else "./dic/php.txt")
@@ -150,10 +191,12 @@ def main(argv):
 
 	# 开始扫描
 	if args.extensions:
+		print '[*]   start scanning with extensions...'
 		for i in range(threads):
 				t = threading.Thread(target=dir_bruter, args=(word_queue,target_url,stime,extensions,))
 				t.start()
 	else:
+		print '[*]   start scanning...'
 		for i in range(threads):
 				t = threading.Thread(target=dir_bruter, args=(word_queue,target_url,stime,))
 				t.start()
