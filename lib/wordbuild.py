@@ -11,8 +11,8 @@ def build_wordlist(wordlist_file):
     fd = open(wordlist_file, "rb")
     logger.info("start wordlist build...")
     raw_words = fd.readlines()
-    logger.info("This dictionary contains %s rows" % len(fd.readlines()))
-    print "This dictionary contains %s rows..." % len(fd.readlines())
+    logger.info("This dictionary contains %s rows" % len(raw_words))
+    print "This dictionary contains %s rows..." % len(raw_words)
     if len(fd.readlines()) == 0:
         logger.error("This dictionary id empty...")
     fd.close()
