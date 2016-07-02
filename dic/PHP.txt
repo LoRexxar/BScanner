@@ -2521,3 +2521,5 @@
 /usr/local/dbfen/flashbackup/logs
 /.git
 /.bash_history
+/readme.html
+/robots.txt

@@ -37,7 +37,11 @@ def dir_bruter(word_queue, target_url, stime, extensions=None):
                 headers["User-Agent"] = conf['ua']
                 r = urllib2.Request(url, headers=headers)
 
-                response = urllib2.urlopen(r)
+                try:
+                    response = urllib2.urlopen(r, timeout=2)
+                except:
+                    logger.error("Time out...")
+                    continue  # 有可能卡死
 
                 # 请求完成后睡眠
                 time.sleep(stime)
