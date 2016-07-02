@@ -20,7 +20,7 @@ def build_wordlist(wordlist_file):
     found_resume = False
     words = Queue.Queue()
 
-    for word in raw_words:s
+    for word in raw_words:
         word = word.rstrip()
 
         # 这功能暂时没开
