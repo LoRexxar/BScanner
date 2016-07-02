@@ -13,14 +13,14 @@ def build_wordlist(wordlist_file):
     raw_words = fd.readlines()
     logger.info("This dictionary contains %s rows" % len(raw_words))
     print "This dictionary contains %s rows..." % len(raw_words)
-    if len(fd.readlines()) == 0:
-        logger.error("This dictionary id empty...")
+    if len(raw_words) == 0:
+        logger.error("This dictionary is empty...")
     fd.close()
 
     found_resume = False
     words = Queue.Queue()
 
-    for word in raw_words:
+    for word in raw_words:s
         word = word.rstrip()
 
         # 这功能暂时没开
