@@ -4,12 +4,15 @@ from lib.config import conf
 from lib.log import logger
 
 __author__ = "LoRexxar"
+# 设置标志位为字典有多少行
+raw_words = 0
 
 
 def build_wordlist(wordlist_file):
     # 读入字典文件
     fd = open(wordlist_file, "rb")
     logger.info("start wordlist build...")
+    global raw_words
     raw_words = fd.readlines()
     logger.info("This dictionary contains %s rows" % len(raw_words))
     print "This dictionary contains %s rows..." % len(raw_words)

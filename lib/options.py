@@ -10,7 +10,7 @@ from bruter import dir_bruter
 from lib.config import conf
 from lib.log import logger
 from lib.log import log
-
+from lib .wordbuild import  raw_words
 __author__ = "LoRexxar"
 
 
