@@ -5,6 +5,7 @@ import threading
 import sys
 import logging
 import re
+from tqdm import tqdm
 from wordbuild import build_wordlist
 from bruter import dir_bruter
 from lib.config import conf
@@ -58,7 +59,7 @@ def oparser():
         errMsg += "use -h for basic or --help for advanced help"
         parser.error(errMsg)
 
-    conf['url'] = (args.url.rstrip('/').rstrip('"').rstrip('\'') if args.url else "http://www.wooyun.org")
+    conf['url'] = (args.url.rstrip('/').rstrip('"').rstrip('\'') if args.url else "http://testphp.vulnweb.com/")
 
     # 处理下url用来log的名字
     name = re.findall("[\w\.-]+", conf['url'])
@@ -113,14 +114,17 @@ def oparser():
 
     extensions = ['.bak', '.orig', '.inc', '.swp', '~']
 
+    # 进度条
+    pbar = tqdm(total=word_queue.qsize(), leave=False)
+
     # 开始扫描
     if args.extensions:
-        print 'start scanning with extensions...'
+        tqdm.write('start scanning with extensions...')
         for i in range(conf['thread']):
-            t = threading.Thread(target=dir_bruter, args=(word_queue, conf['url'], conf['stime'], extensions,))
+            t = threading.Thread(target=dir_bruter, args=(word_queue, conf['url'], conf['stime'], extensions, pbar))
             t.start()
     else:
-        print 'start scanning...'
+        tqdm('start scanning...')
         for i in range(conf['thread']):
-            t = threading.Thread(target=dir_bruter, args=(word_queue, conf['url'], conf['stime'],))
+            t = threading.Thread(target=dir_bruter, args=(word_queue, conf['url'], conf['stime'], None, pbar))
             t.start()

@@ -2,6 +2,7 @@
 import Queue
 from lib.config import conf
 from lib.log import logger
+from tqdm  import tqdm
 
 __author__ = "LoRexxar"
 # 设置标志位为字典有多少行

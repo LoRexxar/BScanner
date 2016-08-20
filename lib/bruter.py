@@ -4,15 +4,16 @@ import urllib2
 import time
 from lib.config import conf
 from lib.log import logger
-# from lib .wordbuild import raw_words
-# from tqdm import tqdm
+from tqdm import tqdm
 __author__ = "LoRexxar"
 
-# pbar = tqdm(total=raw_words)
 
+def dir_bruter(word_queue, target_url, stime, extensions=None, pbar=None):
 
-def dir_bruter(word_queue, target_url, stime, extensions=None):
     while not word_queue.empty():
+
+        pbar.update(1)
+        
         attempt = word_queue.get()
 
         attempt_list = []
@@ -52,13 +53,13 @@ def dir_bruter(word_queue, target_url, stime, extensions=None):
 
                 if response.code != 404:
                     logger.info("Get !!!!" + url)
-                    print "[%d] => %s" % (response.code, url)
+                    tqdm.write("[%d] => %s" % (response.code, url))
 
             except urllib2.URLError, e:
                 if hasattr(e, 'code') and e.code != 404:
-                    print "!!! %d => %s" % (e.code, url)
+                    tqdm.write("!!! %d => %s" % (e.code, url))
 
     logger.info("The dictionary queue is empty")
-    # pbar.close()
+    pbar.close()
     exit(0)
 
